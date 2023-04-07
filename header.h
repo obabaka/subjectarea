@@ -1,60 +1,92 @@
 #pragma once
-#include <iostream>
-#include <string>
-#include <ctime>
-#include <stdlib.h>
+#include<string>
 
-bool flag;
-class avto
+class person//сотрудник
 {
-	friend std::string race(avto, avto);
 public:
-	std::string company;
-	std::string name;
-	int year;
-	int speed;
+	std::string name;//имя
+	int number;//номер корпуса
+	std::string specialization;//область работы
+	bool complited_work;//завершенная работа
+
+	person()
+	{
+		this->access_level = 0;
+		this->complited_work = 0;
+		this->name = "";
+		this->specialization = "";
+	}
+
+	/*person(person&& first)
+	{
+		this->access_level = first.access_level; first.access_level = 0;
+		this->complited_work = first.complited_work; first.complited_work = 0;
+		this->name = first.name; first.name = nullptr;
+		this->number = first.number; first.number = 0;
+		this->specialization = first.specialization; first.specialization = nullptr;
+	}*/
+
+	void promotion(std::string new_spetialization)//повышение
+	{
+		this->specialization = new_spetialization;
+	}
+
+	bool operator<(int level)
+	{
+		return (access_level < level ? true : false);
+	}
+
+	bool operator==(int number)
+	{
+		return number == number ? true : false;
+	}
+
+	friend void change_level(person& person);//изменение уровня доступа
+
+
+	person& operator=(person&& first)
+	{
+		access_level = first.access_level; 			first.access_level = 0;
+		name = first.name;							first.name = "";
+		number = first.number;						first.number = 0;
+		specialization = first.specialization;		first.specialization = "";
+		return *this;
+	}
+
+private:
+	int access_level;//уровень доступа
 };
 
-std::string race(avto object, avto object1)
+void change_level(person& person)
 {
-	srand(time(NULL));
-	if (object.speed > object1.speed)
-	{
-		if (object.speed - object1.speed >= 50)
-		{
-			std::cout << "У автомобилей слишком большая разница в скорости! "<< object.name<< " победил!";
-			
-			flag = false;
-		}
-		else
-		{
-			flag = true;
-			std::cout << "Всё еще может решиться в гонке! ";
-		}
-	}
-	else
-	{
-		if (object1.speed - object.speed >= 50)
-		{
-			std::cout << "У автомобилей слишком большая разница в скорости! " << object1.name << " победил!";
-			flag = false;
-		}
-		else
-		{
-			flag = true;
-			std::cout << "Всё еще может решиться в гонке! ";
-			
-		}
-	}
-	std::cout << "\n----------------------------------\n";
-	int num = rand() % 2;
-	if ((flag == true) && (num == 1))
-	{
-		std::cout << object.name << " Победил!";
-	}
-	else if ((flag == true) && (num == 0))
-	{
-		std::cout << object1.name << " Победил!";
-	}
-	return "\nГонка закончена!";
+	person.access_level++;
 }
+
+class biologist :public person
+{
+public:
+	bool report;
+
+	void ready_report()//отчет готов
+	{
+		if (this->complited_work)
+			this->report = true;
+		else this->report = false;
+	}
+	virtual void Print_report()
+	{
+		if (this->complited_work)
+			std::cout << "report from biologist";
+	}
+};
+class laborant :public biologist
+{
+public:
+	std::string work;//что делает
+
+	void Print_report()
+	{
+		if (this->complited_work)
+			std::cout << "report from laborant";
+	}
+};
