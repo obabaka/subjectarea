@@ -17,15 +17,6 @@ public:
 		this->specialization = "";
 	}
 
-	/*person(person&& first)
-	{
-		this->access_level = first.access_level; first.access_level = 0;
-		this->complited_work = first.complited_work; first.complited_work = 0;
-		this->name = first.name; first.name = nullptr;
-		this->number = first.number; first.number = 0;
-		this->specialization = first.specialization; first.specialization = nullptr;
-	}*/
-
 	void promotion(std::string new_spetialization)//повышение
 	{
 		this->specialization = new_spetialization;
